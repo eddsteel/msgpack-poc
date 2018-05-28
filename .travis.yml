@@ -1,0 +1,24 @@
+sudo: required
+
+language: scala
+
+# These directories are cached to S3 at the end of the build
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/boot/
+
+jdk:
+  - oraclejdk8
+
+services:
+  - docker
+
+script:
+  - sbt -Dfile.encoding=UTF8 -J-XX:ReservedCodeCacheSize=256M test
+  # delete what we don't want to cache.
+  - find $HOME/.sbt -name "*.lock" | xargs rm
+  - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
+  - make container
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - make push

@@ -1,0 +1,15 @@
+[Unit]
+Description=MsgPack but scala
+Requires=docker.service
+After=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill msgpack-poc
+ExecStartPre=-/usr/bin/docker rm msgpack-poc
+ExecStartPre=-/usr/bin/docker pull eddsteel/msgpack-poc:latest
+Restart=always
+ExecStart=/usr/bin/docker run -i --name msgpack-poc -p 8080:8080 eddsteel/msgpack-poc:latest
+ExecStop=/usr/bin/docker stop -t 5 msgpack-poc
+
+[Install]
+WantedBy=local.target
