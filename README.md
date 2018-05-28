@@ -16,16 +16,16 @@ using `msgpack-core`.
 This program
 
 ```scala
-import com.eddsteel.msgpackpoc._
+import com.eddsteel.msgpackpoc.MessagePack
+import com.eddsteel.msgpackpoc.implicits._
 
 object Main extends App {
-    // this will be encoded as a map with field keys "i" and "b"
-    case class Arbitrary(i: Int, b: Boolean)
+  final case class Arbitrary(i: Int, b: Boolean)
 
-    val values = List(Arbitrary(1, true), Arbitrary(2, false))
+  val values: List[Arbitrary] = List(Arbitrary(1, true), Arbitrary(2, false))
 
-    println(MessagePack.encode(values))
-    println(MessagePack.pack(values).mkString("[", ",", "]"))
+  println(MessagePack.encode(values))
+  println(MessagePack.pack(values).mkString("[", ",", "]"))
 }
 ```
 
