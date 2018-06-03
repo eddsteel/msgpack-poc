@@ -11,14 +11,8 @@ cache:
 jdk:
   - oraclejdk8
 
-services:
-  - docker
-
 script:
   - sbt -Dfile.encoding=UTF8 -J-XX:ReservedCodeCacheSize=256M test
   # delete what we don't want to cache.
   - find $HOME/.sbt -name "*.lock" | xargs rm
   - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
-  - make container
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - make push
