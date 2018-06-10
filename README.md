@@ -31,7 +31,7 @@ object Main extends App {
 
 Produces
 ```
-Some(MPArrFx(Vector(MPMap32(Map(MPStrFx(b) -> MPTrue, MPStrFx(i) -> MPUInt8(1))), MPMap32(Map(MPStrFx(b) -> MPFalse, MPStrFx(i) -> MPUInt8(2))))))
+Some(MPArrFx(ArrayBuffer(MPMap32(Map(MPStrFx(b) -> MPTrue, MPStrFx(i) -> MPUInt8(1))), MPMap32(Map(MPStrFx(b) -> MPFalse, MPStrFx(i) -> MPUInt8(2))))))
 [-110,-126,-95,98,-61,-95,105,1,-126,-95,98,-62,-95,105,2]
 ```
 
@@ -42,9 +42,10 @@ Some(MPArrFx(Vector(MPMap32(Map(MPStrFx(b) -> MPTrue, MPStrFx(i) -> MPUInt8(1)))
 - Provide generic packing of case classes and support for primitives.
 - Use msgpack-core to do the actual packing (i.e. fitting sizes twice over)
 
-## Slice 2
+## Slice 2 (in progress)
 
-Add some stdlib types.
+- Replace `Vector` usage with `ArrayBuffer`.
+- Add some stdlib types.
 
 ## Slice 3
 

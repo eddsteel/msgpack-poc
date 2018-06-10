@@ -1,5 +1,6 @@
 package com.eddsteel.msgpackpoc
 import _root_.cats.implicits._
+import scala.collection.mutable.ArrayBuffer
 
 trait CollectionPacking {
   implicit def optionPacking[A](implicit ev: Packing[A]): Packing[Option[A]] = Packing.instance {
@@ -30,11 +31,12 @@ trait CollectionPacking {
     }
 }
 
+@SuppressWarnings(Array("org.wartremover.warts.MutableDataStructures"))
 object CollectionPacking extends CollectionPacking {
   def fitVector(elts: Vector[MPValue]): MPValue =
-    if (elts.length < 16) MPArrFx(elts)
-    else if (elts.length < 65536) MPArr16(elts)
-    else MPArr32(elts) // JVM can only do 2^31 -1 elements
+    if (elts.length < 16) MPArrFx(ArrayBuffer.concat(elts))
+    else if (elts.length < 65536) MPArr16(ArrayBuffer.concat(elts))
+    else MPArr32(ArrayBuffer.concat(elts)) // JVM can only do 2^31 -1 elements
 
   def fitMap(elts: Map[MPValue, MPValue]): MPValue =
     if (elts.size < 8) MPMapFx(elts)

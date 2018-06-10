@@ -1,4 +1,7 @@
 package com.eddsteel.msgpackpoc
+// arrays as case class parameters are problematic
+// vectors are noticably slower.
+import scala.collection.mutable.ArrayBuffer
 
 sealed trait MPValue
 final case object MPNil extends MPValue
@@ -30,14 +33,14 @@ final case class MPStr16(length: Int, value: String) extends MPString
 final case class MPStr32(length: Long, value: String) extends MPString
 
 sealed trait MPBinary extends MPValue
-final case class MPBin8(value: Vector[Byte]) extends MPBinary
-final case class MPBin16(value: Vector[Byte]) extends MPBinary
-final case class MPBin32(value: Vector[Byte]) extends MPBinary
+final case class MPBin8(value: ArrayBuffer[Byte]) extends MPBinary
+final case class MPBin16(value: ArrayBuffer[Byte]) extends MPBinary
+final case class MPBin32(value: ArrayBuffer[Byte]) extends MPBinary
 
 sealed trait MPArray extends MPValue
-final case class MPArrFx(value: Vector[MPValue]) extends MPArray
-final case class MPArr16(value: Vector[MPValue]) extends MPArray
-final case class MPArr32(value: Vector[MPValue]) extends MPArray
+final case class MPArrFx(value: ArrayBuffer[MPValue]) extends MPArray
+final case class MPArr16(value: ArrayBuffer[MPValue]) extends MPArray
+final case class MPArr32(value: ArrayBuffer[MPValue]) extends MPArray
 
 sealed trait MPMap extends MPValue
 final case class MPMapFx(value: Map[MPValue, MPValue]) extends MPMap
@@ -45,7 +48,7 @@ final case class MPMap16(value: Map[MPValue, MPValue]) extends MPMap
 final case class MPMap32(value: Map[MPValue, MPValue]) extends MPMap
 
 sealed trait MPExtension extends MPValue
-final case class MPExtFx(int: Int, value: Vector[Byte]) extends MPExtension
-final case class MPExt8(int: Int, value: Vector[Byte]) extends MPExtension
-final case class MPExt16(int: Int, value: Vector[Byte]) extends MPExtension
-final case class MPExt32(int: Int, value: Vector[Byte]) extends MPExtension
+final case class MPExtFx(int: Int, value: ArrayBuffer[Byte]) extends MPExtension
+final case class MPExt8(int: Int, value: ArrayBuffer[Byte]) extends MPExtension
+final case class MPExt16(int: Int, value: ArrayBuffer[Byte]) extends MPExtension
+final case class MPExt32(int: Int, value: ArrayBuffer[Byte]) extends MPExtension
